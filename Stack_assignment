@@ -1,0 +1,156 @@
+    class Solution {
+public:
+    string removeDuplicateLetters(string s) {
+    vector<int> cand(256,0);
+    vector<bool> visited(256,false);
+    for (char c : s)
+        cand[c]++;
+    string result = "0";
+    for (char c : s) 
+    {
+        cand[c]--;
+        if (visited[c]) 
+        continue;
+        while(c<result.back() && cand[result.back()]) 
+        {
+            visited[result.back()] = false;
+            result.pop_back();
+        }
+        result += c;
+        visited[c] = true;
+    }
+    return result.substr(1);
+}
+};
+
+#Spiral Linked List
+
+class Solution {
+public:
+   void reorderList(ListNode* head) 
+   {
+        if(!head or !head->next) 
+        return;
+        stack<ListNode*> stk;
+        auto it = head, first = head, second = first->next;
+        while(it) 
+        {
+            stk.push(it);
+            it = it->next;
+        }
+        int maxPops = stk.size()/2;
+        while(maxPops--) 
+        {
+            auto top = stk.top(); stk.pop();
+            first->next = top;
+            top->next = second;
+            first = second;
+            second = second->next;
+        }
+        first->next = NULL;
+    }
+};
+
+#Next Greater Element
+
+def nextGreaterElement(arr,n):
+    st = []
+    ans = []
+    for i in range((n-1), -1, -1):
+        if len(st) == 0:
+            ans.append(-1)
+        else:
+            while len(st) > 0 and st[-1] <= arr[i] :
+                st.pop()
+            if(len(st) == 0):
+                ans.append(-1)
+            else:
+                ans.append(st[-1])
+        st.append(arr[i])
+    ans = ans[::-1]
+    return ans
+
+#Score Of Parenthesis
+
+class Solution {
+public:
+    int scoreOfParentheses(string s) 
+    {
+        stack<int>str;
+        int score=0;
+        for(int i=0;i<s.size();i++)
+        {
+            if(s[i]=='(')
+            {
+                str.push(score);
+                score=0;
+            }
+            else if(s[i]==')')
+            {
+                score=str.top()+max(2*score,1);
+                str.pop();
+            }
+        }
+        return score;
+    }
+};
+
+#Next Smaller Element
+
+def nextSmallerElement(arr,n):
+    st = []
+    ans = []
+    for i in range((n-1), -1, -1):
+        if len(st) == 0:
+            ans.append(-1)
+        else:
+            while len(st) > 0 and st[-1] >= arr[i] :
+                st.pop()
+            if(len(st) == 0):
+                ans.append(-1)
+            else:
+                ans.append(st[-1])
+        st.append(arr[i])
+    ans = ans[::-1]
+    return ans
+
+#Valid Parenthesis
+
+class Solution {
+public:
+    bool isValid(string s) 
+    {
+        stack<char> str;
+        for(auto i:s)
+        {
+            if(i=='(' or i=='{' or i=='[') 
+            str.push(i);  
+            else 
+            {
+                if(str.empty() or (str.top()=='(' and i!=')') or (str.top()=='{' and i!='}') or (str.top()=='[' and i!=']')) 
+                return false;
+                str.pop();
+            }
+        }
+        return str.empty();
+    }
+};
+
+#Reverse a String Using Stack
+
+char* reverse(char *S, int len)
+{
+    stack<char>str;
+    for(int i=0;i<len;i++)
+    {
+        str.push(S[i]);
+    }
+    int j=0;
+    while(!str.empty())
+    {
+        S[j]=str.top();
+        j++;
+        str.pop();
+    }
+    return S;
+}
